@@ -1,0 +1,25 @@
+# direnv, where I store my local project configuration
+.envrc
+
+# Compiled files
+*.tfstate
+*.tfstate.*
+
+# Directories
+.terraform/
+
+# SSH Keys
+*.pem
+
+# Backup files
+*.bak
+
+# logs
+*.log
+
+# Ignore Mac .DS_Store files
+.DS_Store
+
+# Ignored vscode files
+.vscode/
+.vscode

@@ -1,27 +1,37 @@
-provider "cml" {
-  host = "cml-controller.home.arpa"
-  username = "admin"
-  password = "tnm0KEP6bgm*udk6tke"
-}
-
-resource "cml_topology" "mytopology" {
-  name = "My Topology"
-  node_templates = [
-    {
-      name = "Router1"
-      type = "router"
-    },
-    {
-      name = "Switch1"
-      type = "switch"
+terraform {
+  required_providers {
+    cml2 = {
+      source  = "registry.terraform.io/ciscodevnet/cml2"
     }
-  ]
+  }
+} 
+
+provider "cml2" {
+  address     = var.address
+  username    = var.username
+  password    = var.password
+  skip_verify = true
+} 
+
+variable "address" {
+  description = "CML controller address"
+  type        = string
+  default     = "https://cml-controller.home.arpa"
 }
 
-resource "cml_link" "mylink" {
-  topology_name = cml_topology.mytopology.name
-  node_a = "Router1"
-  interface_a = "GigabitEthernet0/1"
-  node_b = "Switch1"
-  interface_b = "GigabitEthernet1/0"
+variable "username" {
+  description = "cml2 username"
+  type        = string
+  default     = "admin"
 }
+
+variable "password" {
+  description = "cml2 password"
+  type        = string
+  sensitive   = true
+}
+
+
+resource "cml2_lifecycle" "this" {
+  topology = file("stp_lab.yaml")
+} 
